@@ -218,10 +218,12 @@ public class NearbyBeaconsFragment extends ListFragment
                   public void onDismiss(ListView listView, int position) {
                     Utils.addBlocked(mNearbyDeviceAdapter.getItem(position));
                     Utils.saveBlocked(getActivity());
+                    mNearbyDeviceAdapter.removeWithIndex(position);
                     if (mMissedEmptyGroupIdQueue) {
                       mMissedEmptyGroupIdQueue = false;
                       emptyGroupIdQueue();
                     }
+                    mNearbyDeviceAdapter.notifyDataSetChanged();
                   }
               });
     listView.setOnTouchListener(mTouchListener);
@@ -593,6 +595,10 @@ public class NearbyBeaconsFragment extends ListFragment
       mPwPairs.clear();
       mNumberOfHideableResults = 0;
       notifyDataSetChanged();
+    }
+
+    public void removeWithIndex(int index) {
+      mPwPairs.remove(index);
     }
   }
 
